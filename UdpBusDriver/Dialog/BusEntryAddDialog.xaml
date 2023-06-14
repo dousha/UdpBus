@@ -1,0 +1,68 @@
+﻿<Window x:Class="UdpBusDriver.Dialog.BusEntryAddDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        mc:Ignorable="d"
+        x:Name="Window"
+        Closing="OnWindowClosing"
+        ResizeMode="NoResize"
+        Title="添加条目" Height="250" Width="400">
+    <Grid Margin="8">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0" FontSize="16">添加条目</TextBlock>
+
+        <Grid Grid.Row="1" Margin="0 8 0 0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="64" />
+                <ColumnDefinition />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Grid.Column="0" TextAlignment="Right" VerticalAlignment="Center" Margin="4 0">程序</TextBlock>
+            <TextBox Grid.Column="1" VerticalAlignment="Center" Height="24"
+                     Text="{Binding ElementName=Window,Path=Program}" />
+            <Button Grid.Column="2" Margin="4 0 0 0" Click="OnProgramOpenClick">打开...</Button>
+        </Grid>
+
+        <Grid Grid.Row="2" Margin="0 8 0 0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="64" />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Grid.Column="0" TextAlignment="Right" VerticalAlignment="Center" Margin="4 0">入站端口</TextBlock>
+            <TextBox Grid.Column="1" VerticalAlignment="Center" Height="24"
+                     Text="{Binding ElementName=Window,Path=InboundPort,UpdateSourceTrigger=PropertyChanged}" />
+        </Grid>
+
+        <Grid Grid.Row="3" Margin="0 8 0 0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="64" />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Grid.Column="0" TextAlignment="Right" VerticalAlignment="Center" Margin="4 0">出站端口</TextBlock>
+            <TextBox Grid.Column="1" VerticalAlignment="Center" Height="24"
+                     Text="{Binding ElementName=Window,Path=OutboundPort,UpdateSourceTrigger=PropertyChanged}" />
+        </Grid>
+
+        <Grid Grid.Row="5" HorizontalAlignment="Right">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <Button Grid.Column="0" Padding="4" Click="OnCancelClick" IsCancel="True">取消</Button>
+            <Button Grid.Column="1" Padding="4" Margin="4 0" Click="OnSaveClick" IsDefault="True">保存</Button>
+        </Grid>
+    </Grid>
+</Window>

@@ -1,0 +1,9 @@
+[[inbound]]
+program = ""
+inbound_port = 9002
+outbound_port = 9003
+
+[[outbound]]
+program = ""
+inbound_port = 9001
+outbound_port = 9000

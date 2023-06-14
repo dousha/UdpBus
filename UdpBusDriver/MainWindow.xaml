@@ -1,0 +1,179 @@
+﻿<Window x:Class="UdpBusDriver.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:component="clr-namespace:UdpBusDriver.Component"
+        xmlns:converter="clr-namespace:UdpBusDriver.Converter"
+        xmlns:model="clr-namespace:UdpBusDriver.Model"
+        mc:Ignorable="d"
+        x:Name="Window"
+        Title="UDP Bus" Height="400" Width="600" Closing="OnWindowClosing">
+    <Window.Resources>
+        <converter:StartStopTextConverter x:Key="StartStopTextConverter" />
+        <model:BusModel x:Key="Bus" />
+    </Window.Resources>
+
+    <Grid Margin="8">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Grid.Column="0" FontSize="16">UDP Bus</TextBlock>
+
+            <component:RunningState Grid.Column="1" IsRunning="{Binding Source={StaticResource Bus},Path=IsRunning}"
+                                    Margin="8 0" />
+
+            <Grid Grid.Column="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <Button Grid.Column="1" Width="58" Height="21" Click="OnStartStopClick">
+                    <TextBlock
+                        Text="{Binding Source={StaticResource Bus},Path=IsRunning,Converter={StaticResource StartStopTextConverter}}" />
+                </Button>
+            </Grid>
+        </Grid>
+
+        <Separator Grid.Row="1" Margin="0 8" />
+
+        <Grid Grid.Row="2">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+
+                <Grid Grid.Column="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Grid.Row="0">下游程序</TextBlock>
+                    <ItemsControl Grid.Row="1" UseLayoutRounding="True" AlternationCount="255">
+                        <ItemsControl.ItemsSource>
+                            <CompositeCollection>
+                                <CollectionContainer
+                                    Collection="{Binding Source={StaticResource Bus},Path=InboundEntries}" />
+                                <Border Margin="8 8 8 0">
+                                    <Border.Background>
+                                        <SolidColorBrush Color="White" Opacity="1" />
+                                    </Border.Background>
+                                    <Border.Effect>
+                                        <DropShadowEffect Color="Black" BlurRadius="4" RenderingBias="Performance"
+                                                          ShadowDepth="0" />
+                                    </Border.Effect>
+                                    <Button Height="60" BorderBrush="Transparent" Background="White"
+                                            Click="OnDownstreamCreateClick">
+                                        <component:ProgramEntryAddButton />
+                                    </Button>
+                                </Border>
+                            </CompositeCollection>
+                        </ItemsControl.ItemsSource>
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Orientation="Vertical" Margin="0 8 8 0">
+                                    <StackPanel.Background>
+                                        <SolidColorBrush Color="White" Opacity="1" />
+                                    </StackPanel.Background>
+                                    <StackPanel.Effect>
+                                        <DropShadowEffect Color="Black" BlurRadius="4" RenderingBias="Performance"
+                                                          ShadowDepth="0" />
+                                    </StackPanel.Effect>
+                                </StackPanel>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Border Margin="8 8 8 0">
+                                    <Border.Background>
+                                        <SolidColorBrush Color="White" Opacity="1" />
+                                    </Border.Background>
+                                    <Border.Effect>
+                                        <DropShadowEffect Color="Black" BlurRadius="4" RenderingBias="Performance"
+                                                          ShadowDepth="0" />
+                                    </Border.Effect>
+                                    <component:InboundProgramEntry Entries="{Binding Source={StaticResource Bus},Path=InboundEntries}"
+                                                                   Index="{Binding Path=(ItemsControl.AlternationIndex),RelativeSource={RelativeSource TemplatedParent}}"
+                                                                   d:DataContext="{d:DesignInstance component:InboundProgramEntry}" />
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </Grid>
+                <Grid Grid.Column="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Grid.Row="0">上游程序</TextBlock>
+                    <ItemsControl Grid.Row="1" UseLayoutRounding="True">
+                        <ItemsControl.ItemsSource>
+                            <CompositeCollection>
+                                <CollectionContainer
+                                    Collection="{Binding Source={StaticResource Bus},Path=OutboundEntries}" />
+                                <Border Margin="8 8 8 0">
+                                    <Border.Background>
+                                        <SolidColorBrush Color="White" Opacity="1" />
+                                    </Border.Background>
+                                    <Border.Effect>
+                                        <DropShadowEffect Color="Black" BlurRadius="4" RenderingBias="Performance"
+                                                          ShadowDepth="0" />
+                                    </Border.Effect>
+                                    <Button Height="60" BorderBrush="Transparent" Background="White"
+                                            Click="OnUpstreamCreateClick">
+                                        <component:ProgramEntryAddButton />
+                                    </Button>
+                                </Border>
+                            </CompositeCollection>
+                        </ItemsControl.ItemsSource>
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Orientation="Vertical" Margin="0 8 8 0">
+                                    <StackPanel.Background>
+                                        <SolidColorBrush Color="White" Opacity="1" />
+                                    </StackPanel.Background>
+                                    <StackPanel.Effect>
+                                        <DropShadowEffect Color="Black" BlurRadius="4" RenderingBias="Performance"
+                                                          ShadowDepth="0" />
+                                    </StackPanel.Effect>
+                                </StackPanel>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Border Margin="8 8 8 0">
+                                    <Border.Background>
+                                        <SolidColorBrush Color="White" Opacity="1" />
+                                    </Border.Background>
+                                    <Border.Effect>
+                                        <DropShadowEffect Color="Black" BlurRadius="4" RenderingBias="Performance"
+                                                          ShadowDepth="0" />
+                                    </Border.Effect>
+                                    <component:OutboundProgramEntry Program="{Binding Program}"
+                                                                    InboundPort="{Binding InboundPort}"
+                                                                    OutboundPort="{Binding OutboundPort}"
+                                                                    Index="{Binding Path=(ItemsControl.AlternationIndex),RelativeSource={RelativeSource TemplatedParent}}"
+                                                                    d:DataContext="{d:DesignInstance component:OutboundProgramEntry}" />
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </Grid>
+            </Grid>
+        </Grid>
+    </Grid>
+</Window>
