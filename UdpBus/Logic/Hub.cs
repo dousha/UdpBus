@@ -1,4 +1,5 @@
 ﻿using System.Collections.Concurrent;
+using System.Net.NetworkInformation;
 using UdpBus.Exception;
 using UdpBus.Model;
 
@@ -6,6 +7,14 @@ namespace UdpBus.Logic;
 
 public class Hub
 {
+    private readonly ConcurrentQueue<Datagram> packets;
+    private readonly Semaphore pendingEventCount;
+    private List<BusWorker> downstream;
+
+    private bool running;
+    private List<BusWorker> upstream;
+    private Thread? worker;
+
     public Hub()
     {
         packets = new ConcurrentQueue<Datagram>();
@@ -30,7 +39,22 @@ public class Hub
 
     public void Start(BusConfig config)
     {
-        // FIXME: what if the stuff is already running?
+        for (var i = 0; i < config.Inbound.Count; i++)
+        {
+            if (CheckIfPortIsUsed(config.Inbound[i].InboundPort))
+            {
+                throw new PortAlreadyInUseException(DatagramDirection.FromDownstream, i, config.Inbound[i]);
+            }
+        }
+
+        for (var i = 0; i < config.Outbound.Count; i++)
+        {
+            if (CheckIfPortIsUsed(config.Outbound[i].InboundPort))
+            {
+                throw new PortAlreadyInUseException(DatagramDirection.FromUpstream, i, config.Outbound[i]);
+            }
+        }
+
         // FIXME: do i have to dispose these workers manually?
         downstream = config.Inbound.Select(it =>
             new BusWorker(this, DatagramDirection.FromDownstream, it.InboundPort, it.OutboundPort)).ToList();
@@ -125,10 +149,8 @@ public class Hub
         }
     }
 
-    private bool running;
-    private readonly ConcurrentQueue<Datagram> packets;
-    private readonly Semaphore pendingEventCount;
-    private Thread? worker;
-    private List<BusWorker> downstream;
-    private List<BusWorker> upstream;
+    private static bool CheckIfPortIsUsed(int port)
+    {
+        return IPGlobalProperties.GetIPGlobalProperties().GetActiveUdpListeners().Any(p => p.Port == port);
+    }
 }

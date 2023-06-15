@@ -26,11 +26,19 @@ public partial class MainWindow : Window
         }
         catch (Exception ex)
         {
-            // TODO: clear mode
-            if (ex is InvalidConfigException)
-                MessageBox.Show(this, @"配置无效", string.Empty, MessageBoxButton.OK, MessageBoxImage.Error);
-            else
-                MessageBox.Show(this, ex.Message, string.Empty, MessageBoxButton.OK, MessageBoxImage.Error);
+            switch (ex)
+            {
+                case InvalidConfigException:
+                    MessageBox.Show(this, @"配置无效", string.Empty, MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                    break;
+                case PortAlreadyInUseException portAlreadyInUseException:
+                    MessageBox.Show(this, $"入站端口 {portAlreadyInUseException.Port} 已经被占用，请调整到其他空闲端口", string.Empty,
+                        MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                    break;
+                default:
+                    MessageBox.Show(this, ex.Message, string.Empty, MessageBoxButton.OK, MessageBoxImage.Error);
+                    break;
+            }
 
             bus!.ResetState();
         }
