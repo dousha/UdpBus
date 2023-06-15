@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using System.Globalization;
+using System.IO;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Interop;
@@ -17,6 +18,11 @@ public class ProgramIconConverter : IValueConverter
         if (value is not string path) return new BitmapImage();
 
         if (string.IsNullOrEmpty(path)) return new BitmapImage();
+
+        if (!File.Exists(path))
+        {
+            return new BitmapImage();
+        }
 
         using var ico = Icon.ExtractAssociatedIcon(path);
         return ico is null
