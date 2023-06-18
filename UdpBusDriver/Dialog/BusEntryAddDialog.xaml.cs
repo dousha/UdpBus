@@ -7,11 +7,11 @@ using UdpBus.Model;
 
 namespace UdpBusDriver.Dialog;
 
-public partial class BusEntryAddDialog : Window, INotifyPropertyChanged
+public partial class BusEntryAddDialog : INotifyPropertyChanged
 {
+    private FilterType filter;
     private int inboundPort;
     private int outboundPort;
-
     private string program;
 
     public BusEntryAddDialog()
@@ -37,6 +37,12 @@ public partial class BusEntryAddDialog : Window, INotifyPropertyChanged
     {
         get => outboundPort;
         set => SetField(ref outboundPort, value);
+    }
+
+    public FilterType Filter
+    {
+        get => filter;
+        set => SetField(ref filter, value);
     }
 
     public BusEntry Entry { get; private set; }
@@ -93,6 +99,6 @@ public partial class BusEntryAddDialog : Window, INotifyPropertyChanged
 
     private void OnWindowClosing(object? sender, CancelEventArgs e)
     {
-        Entry = new BusEntry(Program, InboundPort, OutboundPort);
+        Entry = new BusEntry(Program, InboundPort, OutboundPort, Filter);
     }
 }

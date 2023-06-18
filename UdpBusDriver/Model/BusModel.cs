@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using UdpBus;
@@ -13,8 +12,12 @@ public class BusModel : INotifyPropertyChanged
 {
     private readonly Bus bus = new(FileUtil.GetDefaultConfigurationPath());
 
+    private ObservableCollection<BusEntry> inbound;
+
     private bool isRunning;
     private bool operationPending;
+
+    private ObservableCollection<BusEntry> outbound;
 
     public BusModel()
     {
@@ -36,20 +39,14 @@ public class BusModel : INotifyPropertyChanged
         inbound.CollectionChanged += (_, _) =>
         {
             bus.Config.Inbound.Clear();
-            foreach (var entry in inbound)
-            {
-                bus.Config.Inbound.Add(entry);
-            }
+            foreach (var entry in inbound) bus.Config.Inbound.Add(entry);
             bus.Save();
         };
 
         outbound.CollectionChanged += (_, _) =>
         {
             bus.Config.Outbound.Clear();
-            foreach (var entry in outbound)
-            {
-                bus.Config.Outbound.Add(entry);
-            }
+            foreach (var entry in outbound) bus.Config.Outbound.Add(entry);
             bus.Save();
         };
     }
@@ -79,10 +76,6 @@ public class BusModel : INotifyPropertyChanged
     }
 
     public event PropertyChangedEventHandler? PropertyChanged;
-
-    private ObservableCollection<BusEntry> inbound;
-
-    private ObservableCollection<BusEntry> outbound;
 
     protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
     {

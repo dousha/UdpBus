@@ -6,5 +6,5 @@ public enum StopReason
     PortAlreadyInUse = 1,
     SystemError = 2,
     InvalidConfig = 3,
-    Unknown = 0xff,
+    Unknown = 0xff
 }

@@ -18,6 +18,11 @@ public partial class InboundProgramEntry : UserControl, INotifyPropertyChanged
         typeof(ObservableCollection<BusEntry>), typeof(InboundProgramEntry),
         new PropertyMetadata(new ObservableCollection<BusEntry>(), OnListChange));
 
+    private int inboundPort;
+    private int outboundPort;
+
+    private string? program;
+
     public InboundProgramEntry()
     {
         InitializeComponent();
@@ -53,17 +58,13 @@ public partial class InboundProgramEntry : UserControl, INotifyPropertyChanged
         set => SetValue(IndexProperty, value);
     }
 
+    public event PropertyChangedEventHandler? PropertyChanged;
+
     private void OnEditClick(object sender, RoutedEventArgs e)
     {
         var dialog = new BusEntryEditDialog(Entries, Index);
         dialog.ShowDialog();
     }
-
-    private string? program;
-    private int inboundPort;
-    private int outboundPort;
-
-    public event PropertyChangedEventHandler? PropertyChanged;
 
     protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
     {
@@ -80,26 +81,17 @@ public partial class InboundProgramEntry : UserControl, INotifyPropertyChanged
 
     private static void OnListChange(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (d is InboundProgramEntry c)
-        {
-            UpdateDisplay(c);
-        }
+        if (d is InboundProgramEntry c) UpdateDisplay(c);
     }
 
     private static void OnIndexChange(DependencyObject d, DependencyPropertyChangedEventArgs _)
     {
-        if (d is InboundProgramEntry c)
-        {
-            UpdateDisplay(c);
-        }
+        if (d is InboundProgramEntry c) UpdateDisplay(c);
     }
 
     private static void UpdateDisplay(InboundProgramEntry c)
     {
-        if (c.Entries.Count <= c.Index)
-        {
-            return;
-        }
+        if (c.Entries.Count <= c.Index) return;
 
         var entry = c.Entries[c.Index];
         c.Program = entry.Program;

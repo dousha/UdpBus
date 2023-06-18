@@ -19,10 +19,7 @@ public class ProgramIconConverter : IValueConverter
 
         if (string.IsNullOrEmpty(path)) return new BitmapImage();
 
-        if (!File.Exists(path))
-        {
-            return new BitmapImage();
-        }
+        if (!File.Exists(path)) return new BitmapImage();
 
         using var ico = Icon.ExtractAssociatedIcon(path);
         return ico is null

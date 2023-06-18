@@ -3,14 +3,19 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:local="clr-namespace:UdpBusDriver.Dialog"
+        xmlns:model="clr-namespace:UdpBusDriver.Model"
         mc:Ignorable="d"
         x:Name="Window"
         Closing="OnWindowClosing"
         ResizeMode="NoResize"
         Title="添加条目" Height="250" Width="400">
+    <Window.Resources>
+        <model:FilterTypes x:Key="FilterTypes" />
+    </Window.Resources>
+
     <Grid Margin="8">
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
@@ -56,7 +61,20 @@
                      Text="{Binding ElementName=Window,Path=OutboundPort,UpdateSourceTrigger=PropertyChanged}" />
         </Grid>
 
-        <Grid Grid.Row="5">
+        <Grid Grid.Row="4" Margin="0 8 0 0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="64" />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Grid.Column="0" TextAlignment="Right" VerticalAlignment="Center" Margin="4 0">出站过滤</TextBlock>
+            <ComboBox Grid.Column="1" SelectedValue="{Binding ElementName=Window,Path=Filter}"
+                      ItemsSource="{Binding Source={StaticResource FilterTypes},Path=KnownFilters}"
+                      SelectedValuePath="Key"
+                      DisplayMemberPath="Value" />
+        </Grid>
+
+        <Grid Grid.Row="6">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition />

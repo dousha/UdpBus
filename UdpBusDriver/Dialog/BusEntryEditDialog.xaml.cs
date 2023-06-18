@@ -8,8 +8,17 @@ using UdpBus.Model;
 
 namespace UdpBusDriver.Dialog;
 
-public partial class BusEntryEditDialog : Window, INotifyPropertyChanged
+public partial class BusEntryEditDialog : INotifyPropertyChanged
 {
+    private readonly int index;
+
+    private readonly ObservableCollection<BusEntry> xs;
+    private FilterType filter;
+
+    private int inboundPort;
+    private int outboundPort;
+    private string program;
+
     public BusEntryEditDialog(ObservableCollection<BusEntry> xs, int index)
     {
         this.xs = xs;
@@ -18,15 +27,12 @@ public partial class BusEntryEditDialog : Window, INotifyPropertyChanged
         program = initialValue.Program ?? string.Empty;
         inboundPort = initialValue.InboundPort;
         outboundPort = initialValue.OutboundPort;
+        filter = initialValue.Filter;
 
         Entry = new BusEntry(Program, InboundPort, OutboundPort);
         InitializeComponent();
     }
 
-    private int inboundPort;
-    private int outboundPort;
-
-    private string program;
 
     public string Program
     {
@@ -44,6 +50,12 @@ public partial class BusEntryEditDialog : Window, INotifyPropertyChanged
     {
         get => outboundPort;
         set => SetField(ref outboundPort, value);
+    }
+
+    public FilterType Filter
+    {
+        get => filter;
+        set => SetField(ref filter, value);
     }
 
     public BusEntry Entry { get; private set; }
@@ -81,7 +93,7 @@ public partial class BusEntryEditDialog : Window, INotifyPropertyChanged
     private void OnSaveClick(object sender, RoutedEventArgs e)
     {
         DialogResult = true;
-        Entry = new BusEntry(Program, InboundPort, OutboundPort);
+        Entry = new BusEntry(Program, InboundPort, OutboundPort, Filter);
         xs.RemoveAt(index);
         xs.Insert(index, Entry);
         Close();
@@ -103,7 +115,4 @@ public partial class BusEntryEditDialog : Window, INotifyPropertyChanged
         DialogResult = true;
         Close();
     }
-
-    private readonly ObservableCollection<BusEntry> xs;
-    private readonly int index;
 }

@@ -17,10 +17,7 @@ public class PortAlreadyInUseException : System.Exception
 
     public BusEntry Entry { get; }
 
-    public int Port
-    {
-        get => Entry.InboundPort;
-    }
+    public int Port => Entry.InboundPort;
 
     public override string Message => $"Port {Port} is already in use";
 }

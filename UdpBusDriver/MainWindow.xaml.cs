@@ -67,9 +67,6 @@ public partial class MainWindow : Window
     private void OnWindowClosing(object? sender, CancelEventArgs e)
     {
         var bus = Resources["Bus"] as BusModel;
-        if (bus?.IsRunning ?? false)
-        {
-            bus.ToggleStartStop();
-        }
+        if (bus?.IsRunning ?? false) bus.ToggleStartStop();
     }
 }

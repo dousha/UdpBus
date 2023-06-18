@@ -15,5 +15,5 @@ public struct Datagram
 
     public DatagramDirection Direction { get; }
 
-    private byte[] data;
+    private readonly byte[] data;
 }

@@ -2,6 +2,8 @@
 
 public class InvalidConfigException : System.Exception
 {
+    private readonly string what;
+
     public InvalidConfigException(string what)
     {
         this.what = what;
@@ -9,8 +11,6 @@ public class InvalidConfigException : System.Exception
 
     public override string ToString()
     {
-        return $"Server cannot understand the configuration: {this.what}";
+        return $"Server cannot understand the configuration: {what}";
     }
-
-    private readonly string what;
 }

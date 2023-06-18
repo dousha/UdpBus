@@ -6,6 +6,9 @@ namespace UdpBus;
 
 public class Bus
 {
+    private readonly string configPath;
+    private readonly Hub hub;
+
     public Bus(string configPath)
     {
         this.configPath = configPath;
@@ -37,6 +40,8 @@ public class Bus
         hub = new Hub();
     }
 
+    public BusConfig Config { get; }
+
     public void Start()
     {
         hub.Start(Config);
@@ -59,13 +64,4 @@ public class Bus
     public event EventHandler? Started;
 
     public event EventHandler<StopReason>? Stopped;
-
-    public BusConfig Config
-    {
-        get;
-        private set;
-    }
-
-    private readonly string configPath;
-    private Hub hub;
 }

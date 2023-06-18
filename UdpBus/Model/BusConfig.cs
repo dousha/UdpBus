@@ -10,9 +10,7 @@ public class BusConfig
         Outbound = new List<BusEntry>();
     }
 
-    [DataMember(Name = "inbound")]
-    public IList<BusEntry> Inbound { get; set; }
+    [DataMember(Name = "inbound")] public IList<BusEntry> Inbound { get; set; }
 
-    [DataMember(Name = "outbound")]
-    public IList<BusEntry> Outbound { get; set; }
+    [DataMember(Name = "outbound")] public IList<BusEntry> Outbound { get; set; }
 }

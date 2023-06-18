@@ -1,22 +1,36 @@
 ﻿using System.Collections.Concurrent;
 using System.Net;
 using System.Net.Sockets;
+using UdpBus.Logic.ForwardCondition;
 using UdpBus.Model;
 
 namespace UdpBus.Logic;
 
 internal class BusWorker
 {
-    private struct UdpState
+    private readonly UdpClient client;
+    private readonly IForwardCondition forwardCondition;
+
+    private readonly Hub hub;
+    private readonly DatagramDirection inboundDirection;
+    private readonly IPEndPoint outboundEndpoint;
+    private readonly ConcurrentQueue<Datagram> packets;
+    private readonly Semaphore pendingEventCount;
+    private readonly UdpState state;
+    private readonly Thread worker;
+    private bool running;
+
+    internal BusWorker(Hub hub, DatagramDirection inboundDirection, int inboundPort, int outboundPort) :
+        this(hub, inboundDirection, inboundPort, outboundPort, new AllowAny())
     {
-        public UdpClient Client;
-        public IPEndPoint Endpoint;
     }
 
-    internal BusWorker(Hub hub, DatagramDirection inboundDirection, int inboundPort, int outboundPort)
+    internal BusWorker(Hub hub, DatagramDirection inboundDirection, int inboundPort, int outboundPort,
+        IForwardCondition forwardCondition)
     {
         this.hub = hub;
         this.inboundDirection = inboundDirection;
+        this.forwardCondition = forwardCondition;
 
         client = new UdpClient(inboundPort);
         var inboundEndpoint = new IPEndPoint(IPAddress.Any, inboundPort);
@@ -67,10 +81,7 @@ internal class BusWorker
                 break;
             }
 
-            if (!packets.TryDequeue(out var datagram))
-            {
-                continue;
-            }
+            if (!packets.TryDequeue(out var datagram)) continue;
 
             switch (datagram.Direction)
             {
@@ -85,7 +96,8 @@ internal class BusWorker
                 case DatagramDirection.ToDownstream:
                     goto case DatagramDirection.ToUpstream;
                 case DatagramDirection.ToUpstream:
-                    client.Send(datagram.Data, outboundEndpoint);
+                    if (forwardCondition.CanForward(datagram)) client.Send(datagram.Data, outboundEndpoint);
+
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -115,14 +127,9 @@ internal class BusWorker
         }
     }
 
-    private readonly UdpClient client;
-    private readonly IPEndPoint outboundEndpoint;
-    private readonly UdpState state;
-    private readonly ConcurrentQueue<Datagram> packets;
-    private readonly Thread worker;
-    private readonly Semaphore pendingEventCount;
-    private readonly DatagramDirection inboundDirection;
-    private bool running;
-
-    private readonly Hub hub;
+    private struct UdpState
+    {
+        public UdpClient Client;
+        public IPEndPoint Endpoint;
+    }
 }

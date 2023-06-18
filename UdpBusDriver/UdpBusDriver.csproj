@@ -8,12 +8,12 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\UdpBus\UdpBus.csproj" />
+        <ProjectReference Include="..\UdpBus\UdpBus.csproj"/>
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Ookii.Dialogs.Wpf" Version="5.0.1" />
-        <PackageReference Include="System.Drawing.Common" Version="7.0.0" />
+        <PackageReference Include="Ookii.Dialogs.Wpf" Version="5.0.1"/>
+        <PackageReference Include="System.Drawing.Common" Version="7.0.0"/>
     </ItemGroup>
 
 </Project>

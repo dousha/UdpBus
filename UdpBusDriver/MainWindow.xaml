@@ -105,9 +105,10 @@
                                         <DropShadowEffect Color="Black" BlurRadius="4" RenderingBias="Performance"
                                                           ShadowDepth="0" />
                                     </Border.Effect>
-                                    <component:InboundProgramEntry Entries="{Binding Source={StaticResource Bus},Path=InboundEntries}"
-                                                                   Index="{Binding Path=(ItemsControl.AlternationIndex),RelativeSource={RelativeSource TemplatedParent}}"
-                                                                   d:DataContext="{d:DesignInstance component:InboundProgramEntry}" />
+                                    <component:InboundProgramEntry
+                                        Entries="{Binding Source={StaticResource Bus},Path=InboundEntries}"
+                                        Index="{Binding Path=(ItemsControl.AlternationIndex),RelativeSource={RelativeSource TemplatedParent}}"
+                                        d:DataContext="{d:DesignInstance component:InboundProgramEntry}" />
                                 </Border>
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
