@@ -20,27 +20,26 @@ internal class BusWorker
     private readonly Thread worker;
     private bool running;
 
-    internal BusWorker(Hub hub, DatagramDirection inboundDirection, int inboundPort, int outboundPort) :
-        this(hub, inboundDirection, inboundPort, outboundPort, new AllowAny())
-    {
-    }
-
-    internal BusWorker(Hub hub, DatagramDirection inboundDirection, int inboundPort, int outboundPort,
-        IForwardCondition forwardCondition)
+    internal BusWorker(Hub hub, DatagramDirection direction, BusEntry entry)
     {
         this.hub = hub;
-        this.inboundDirection = inboundDirection;
-        this.forwardCondition = forwardCondition;
+        inboundDirection = direction;
+        forwardCondition = entry.Filter.GetFilterInstance<IForwardCondition>();
 
-        client = new UdpClient(inboundPort);
-        var inboundEndpoint = new IPEndPoint(IPAddress.Any, inboundPort);
+        var inboundEndpoint = IPAddress.TryParse(entry.InboundAddress, out var inboundAddress)
+            ? new IPEndPoint(inboundAddress, entry.InboundPort)
+            : new IPEndPoint(IPAddress.Any, entry.InboundPort);
+
+        client = new UdpClient(inboundEndpoint);
         state = new UdpState
         {
             Client = client,
             Endpoint = inboundEndpoint
         };
 
-        outboundEndpoint = new IPEndPoint(IPAddress.Loopback, outboundPort);
+        outboundEndpoint = IPAddress.TryParse(entry.OutboundAddress, out var outboundAddress)
+            ? new IPEndPoint(outboundAddress, entry.OutboundPort)
+            : new IPEndPoint(IPAddress.Loopback, entry.OutboundPort);
 
         packets = new ConcurrentQueue<Datagram>();
         pendingEventCount = new Semaphore(0, 255);

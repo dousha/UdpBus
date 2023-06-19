@@ -1,7 +1,6 @@
 ﻿using System.Collections.Concurrent;
 using System.Net.NetworkInformation;
 using UdpBus.Exception;
-using UdpBus.Logic.ForwardCondition;
 using UdpBus.Model;
 
 namespace UdpBus.Logic;
@@ -50,11 +49,9 @@ public class Hub
 
         // FIXME: do i have to dispose these workers manually?
         downstream = config.Inbound.Select(it =>
-            new BusWorker(this, DatagramDirection.FromDownstream, it.InboundPort, it.OutboundPort,
-                it.Filter.GetFilterInstance<IForwardCondition>())).ToList();
+            new BusWorker(this, DatagramDirection.FromDownstream, it)).ToList();
         upstream = config.Outbound.Select(it =>
-            new BusWorker(this, DatagramDirection.FromUpstream, it.InboundPort, it.OutboundPort,
-                it.Filter.GetFilterInstance<IForwardCondition>())).ToList();
+            new BusWorker(this, DatagramDirection.FromUpstream, it)).ToList();
         Start();
     }
 

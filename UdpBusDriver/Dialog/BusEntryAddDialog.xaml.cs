@@ -10,13 +10,17 @@ namespace UdpBusDriver.Dialog;
 public partial class BusEntryAddDialog : INotifyPropertyChanged
 {
     private FilterType filter;
+    private string inboundAddress;
     private int inboundPort;
+    private string outboundAddress;
     private int outboundPort;
     private string program;
 
     public BusEntryAddDialog()
     {
         program = string.Empty;
+        inboundAddress = "0.0.0.0";
+        outboundAddress = "127.0.0.1";
         Entry = new BusEntry();
         InitializeComponent();
     }
@@ -27,10 +31,22 @@ public partial class BusEntryAddDialog : INotifyPropertyChanged
         set => SetField(ref program, value);
     }
 
+    public string InboundAddress
+    {
+        get => inboundAddress;
+        set => SetField(ref inboundAddress, value);
+    }
+
     public int InboundPort
     {
         get => inboundPort;
         set => SetField(ref inboundPort, value);
+    }
+
+    public string OutboundAddress
+    {
+        get => outboundAddress;
+        set => SetField(ref outboundAddress, value);
     }
 
     public int OutboundPort
@@ -99,6 +115,6 @@ public partial class BusEntryAddDialog : INotifyPropertyChanged
 
     private void OnWindowClosing(object? sender, CancelEventArgs e)
     {
-        Entry = new BusEntry(Program, InboundPort, OutboundPort, Filter);
+        Entry = new BusEntry(Program, InboundAddress, InboundPort, OutboundAddress, OutboundPort, Filter);
     }
 }

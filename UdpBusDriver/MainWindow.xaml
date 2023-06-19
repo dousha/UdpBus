@@ -105,10 +105,10 @@
                                         <DropShadowEffect Color="Black" BlurRadius="4" RenderingBias="Performance"
                                                           ShadowDepth="0" />
                                     </Border.Effect>
-                                    <component:InboundProgramEntry
+                                    <component:ProgramEntry
                                         Entries="{Binding Source={StaticResource Bus},Path=InboundEntries}"
                                         Index="{Binding Path=(ItemsControl.AlternationIndex),RelativeSource={RelativeSource TemplatedParent}}"
-                                        d:DataContext="{d:DesignInstance component:InboundProgramEntry}" />
+                                        d:DataContext="{d:DesignInstance component:ProgramEntry}" />
                                 </Border>
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
@@ -164,11 +164,10 @@
                                         <DropShadowEffect Color="Black" BlurRadius="4" RenderingBias="Performance"
                                                           ShadowDepth="0" />
                                     </Border.Effect>
-                                    <component:OutboundProgramEntry Program="{Binding Program}"
-                                                                    InboundPort="{Binding InboundPort}"
-                                                                    OutboundPort="{Binding OutboundPort}"
-                                                                    Index="{Binding Path=(ItemsControl.AlternationIndex),RelativeSource={RelativeSource TemplatedParent}}"
-                                                                    d:DataContext="{d:DesignInstance component:OutboundProgramEntry}" />
+                                    <component:ProgramEntry
+                                        Entries="{Binding Source={StaticResource Bus},Path=OutboundEntries}"
+                                        Index="{Binding Path=(ItemsControl.AlternationIndex),RelativeSource={RelativeSource TemplatedParent}}"
+                                        d:DataContext="{d:DesignInstance component:ProgramEntry}" />
                                 </Border>
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>

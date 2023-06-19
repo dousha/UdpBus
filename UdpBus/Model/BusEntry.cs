@@ -38,9 +38,26 @@ public class BusEntry
         FilterValue = filter.ToString();
     }
 
+    public BusEntry(string? program, string inboundAddress, int inboundPort, string outboundAddress, int outboundPort,
+        FilterType filter)
+    {
+        Program = program;
+        InboundAddress = inboundAddress;
+        InboundPort = inboundPort;
+        OutboundAddress = outboundAddress;
+        OutboundPort = outboundPort;
+        Filter = filter;
+        FilterValue = filter.ToString();
+    }
+
     [DataMember(Name = "program")] public string? Program { get; init; }
 
+    [DataMember(Name = "inbound_address")] public string? InboundAddress { get; init; }
+
     [DataMember(Name = "inbound_port")] public int InboundPort { get; init; }
+
+    [DataMember(Name = "outbound_address")]
+    public string? OutboundAddress { get; init; }
 
     [DataMember(Name = "outbound_port")] public int OutboundPort { get; init; }
 

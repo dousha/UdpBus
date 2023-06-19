@@ -9,13 +9,13 @@ using UdpBusDriver.Dialog;
 
 namespace UdpBusDriver.Component;
 
-public partial class InboundProgramEntry : UserControl, INotifyPropertyChanged
+public partial class ProgramEntry : UserControl, INotifyPropertyChanged
 {
     public static readonly DependencyProperty IndexProperty = DependencyProperty.Register(nameof(Index), typeof(int),
-        typeof(InboundProgramEntry), new PropertyMetadata(0, OnIndexChange));
+        typeof(ProgramEntry), new PropertyMetadata(0, OnIndexChange));
 
     public static readonly DependencyProperty ArrayProperty = DependencyProperty.Register(nameof(Entries),
-        typeof(ObservableCollection<BusEntry>), typeof(InboundProgramEntry),
+        typeof(ObservableCollection<BusEntry>), typeof(ProgramEntry),
         new PropertyMetadata(new ObservableCollection<BusEntry>(), OnListChange));
 
     private int inboundPort;
@@ -23,7 +23,7 @@ public partial class InboundProgramEntry : UserControl, INotifyPropertyChanged
 
     private string? program;
 
-    public InboundProgramEntry()
+    public ProgramEntry()
     {
         InitializeComponent();
     }
@@ -81,15 +81,15 @@ public partial class InboundProgramEntry : UserControl, INotifyPropertyChanged
 
     private static void OnListChange(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (d is InboundProgramEntry c) UpdateDisplay(c);
+        if (d is ProgramEntry c) UpdateDisplay(c);
     }
 
     private static void OnIndexChange(DependencyObject d, DependencyPropertyChangedEventArgs _)
     {
-        if (d is InboundProgramEntry c) UpdateDisplay(c);
+        if (d is ProgramEntry c) UpdateDisplay(c);
     }
 
-    private static void UpdateDisplay(InboundProgramEntry c)
+    private static void UpdateDisplay(ProgramEntry c)
     {
         if (c.Entries.Count <= c.Index) return;
 

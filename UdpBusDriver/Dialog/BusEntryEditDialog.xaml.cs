@@ -14,8 +14,10 @@ public partial class BusEntryEditDialog : INotifyPropertyChanged
 
     private readonly ObservableCollection<BusEntry> xs;
     private FilterType filter;
+    private string inboundAddress;
 
     private int inboundPort;
+    private string outboundAddress;
     private int outboundPort;
     private string program;
 
@@ -25,7 +27,9 @@ public partial class BusEntryEditDialog : INotifyPropertyChanged
         this.index = index;
         var initialValue = xs[index];
         program = initialValue.Program ?? string.Empty;
+        inboundAddress = initialValue.InboundAddress ?? "0.0.0.0";
         inboundPort = initialValue.InboundPort;
+        outboundAddress = initialValue.OutboundAddress ?? "127.0.0.1";
         outboundPort = initialValue.OutboundPort;
         filter = initialValue.Filter;
 
@@ -40,10 +44,22 @@ public partial class BusEntryEditDialog : INotifyPropertyChanged
         set => SetField(ref program, value);
     }
 
+    public string InboundAddress
+    {
+        get => inboundAddress;
+        set => SetField(ref inboundAddress, value);
+    }
+
     public int InboundPort
     {
         get => inboundPort;
         set => SetField(ref inboundPort, value);
+    }
+
+    public string OutboundAddress
+    {
+        get => outboundAddress;
+        set => SetField(ref outboundAddress, value);
     }
 
     public int OutboundPort
@@ -93,7 +109,7 @@ public partial class BusEntryEditDialog : INotifyPropertyChanged
     private void OnSaveClick(object sender, RoutedEventArgs e)
     {
         DialogResult = true;
-        Entry = new BusEntry(Program, InboundPort, OutboundPort, Filter);
+        Entry = new BusEntry(Program, InboundAddress, InboundPort, OutboundAddress, OutboundPort, Filter);
         xs.RemoveAt(index);
         xs.Insert(index, Entry);
         Close();
