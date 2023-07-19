@@ -36,6 +36,16 @@ public class Bus
             return;
         }
 
+        foreach (var busEntry in config.Inbound)
+        {
+            busEntry.RectifyOnLoad();
+        }
+
+        foreach (var busEntry in config.Outbound)
+        {
+            busEntry.RectifyOnLoad();
+        }
+
         Config = config;
         hub = new Hub();
     }

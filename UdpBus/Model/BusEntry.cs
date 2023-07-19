@@ -61,9 +61,9 @@ public class BusEntry
 
     [DataMember(Name = "outbound_port")] public int OutboundPort { get; init; }
 
-    [DataMember(Name = "filter")] public string? FilterValue { get; init; }
+    [DataMember(Name = "filter")] public string? FilterValue { get; private set; }
 
-    [IgnoreDataMember] public FilterType Filter { get; }
+    [IgnoreDataMember] public FilterType Filter { get; private set; }
 
     public override bool Equals(object? obj)
     {
@@ -73,6 +73,19 @@ public class BusEntry
     public override int GetHashCode()
     {
         return HashCode.Combine(Program, InboundPort, OutboundPort);
+    }
+
+    public void RectifyOnLoad()
+    {
+        if (Enum.TryParse(FilterValue, out FilterType parsedFilterType))
+        {
+            Filter = parsedFilterType;
+        }
+        else
+        {
+            Filter = FilterType.Allow;
+            FilterValue = FilterType.Allow.ToString();
+        }
     }
 
     private bool Equals(BusEntry other)
