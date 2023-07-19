@@ -61,7 +61,7 @@
                         <RowDefinition />
                     </Grid.RowDefinitions>
 
-                    <TextBlock Grid.Row="0">下游程序</TextBlock>
+                    <TextBlock Grid.Row="0" Text="{DynamicResource LabelDownstream}" />
                     <ItemsControl Grid.Row="1" UseLayoutRounding="True" AlternationCount="255">
                         <ItemsControl.ItemsSource>
                             <CompositeCollection>
@@ -120,7 +120,7 @@
                         <RowDefinition />
                     </Grid.RowDefinitions>
 
-                    <TextBlock Grid.Row="0">上游程序</TextBlock>
+                    <TextBlock Grid.Row="0" Text="{DynamicResource LabelUpstream}" />
                     <ItemsControl Grid.Row="1" UseLayoutRounding="True">
                         <ItemsControl.ItemsSource>
                             <CompositeCollection>

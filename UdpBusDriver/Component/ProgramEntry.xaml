@@ -48,7 +48,9 @@
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
-            <Button Grid.Row="1" Margin="4" Padding="4" Click="OnEditClick">编辑...</Button>
+            <Button Grid.Row="1" Margin="4" Padding="4" Click="OnEditClick">
+                <TextBlock Text="{DynamicResource BtnEdit}" />
+            </Button>
         </Grid>
     </Grid>
 </UserControl>

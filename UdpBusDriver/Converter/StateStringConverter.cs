@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+using System.Windows;
 using System.Windows.Data;
 
 namespace UdpBusDriver.Converter;
@@ -9,9 +10,11 @@ public class StateStringConverter : IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
-        if (value is not bool b) return @"未知状态";
+        var dict = Application.Current.Resources;
 
-        return b ? @"正在运行" : @"未在运行";
+        if (value is not bool b) return dict["StateUnknown"];
+
+        return b ? dict["StateActive"] : dict["StateIdle"];
     }
 
     public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

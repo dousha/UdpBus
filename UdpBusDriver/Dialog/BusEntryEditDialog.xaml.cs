@@ -33,7 +33,7 @@ public partial class BusEntryEditDialog : INotifyPropertyChanged
         outboundPort = initialValue.OutboundPort;
         filter = initialValue.Filter;
 
-        Entry = new BusEntry(Program, InboundPort, OutboundPort);
+        Entry = new BusEntry(Program, InboundPort, OutboundPort, Filter);
         InitializeComponent();
     }
 

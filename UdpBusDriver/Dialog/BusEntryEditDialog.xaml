@@ -4,6 +4,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:model="clr-namespace:UdpBusDriver.Model"
+        xmlns:converter="clr-namespace:UdpBusDriver.Converter"
         mc:Ignorable="d"
         x:Name="Window"
         Closing="OnWindowClosing"
@@ -11,6 +12,7 @@
         Title="添加条目" Height="250" Width="400">
     <Window.Resources>
         <model:FilterTypes x:Key="FilterTypes" />
+        <converter:FilterTypeConverter x:Key="FilterTypeConverter" />
     </Window.Resources>
 
     <Grid Margin="8">
@@ -24,7 +26,7 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <TextBlock Grid.Row="0" FontSize="16">编辑条目</TextBlock>
+        <TextBlock Grid.Row="0" FontSize="16" Text="{DynamicResource LabelEditEntry}" />
 
         <Grid Grid.Row="1" Margin="0 8 0 0">
             <Grid.ColumnDefinitions>
@@ -33,10 +35,13 @@
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
 
-            <TextBlock Grid.Column="0" TextAlignment="Right" VerticalAlignment="Center" Margin="4 0">程序</TextBlock>
+            <TextBlock Grid.Column="0" TextAlignment="Right" VerticalAlignment="Center" Margin="4 0"
+                       Text="{DynamicResource LabelProgram}" />
             <TextBox Grid.Column="1" VerticalAlignment="Center" Height="24"
                      Text="{Binding ElementName=Window,Path=Program}" />
-            <Button Grid.Column="2" Margin="4 0 0 0" Click="OnProgramOpenClick">打开...</Button>
+            <Button Grid.Column="2" Margin="4 0 0 0" Click="OnProgramOpenClick">
+                <TextBlock Text="{DynamicResource BtnOpen}" />
+            </Button>
         </Grid>
 
         <Grid Grid.Row="2" Margin="0 8 0 0">
@@ -47,7 +52,8 @@
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
 
-            <TextBlock Grid.Column="0" TextAlignment="Right" VerticalAlignment="Center" Margin="4 0">入站端口</TextBlock>
+            <TextBlock Grid.Column="0" TextAlignment="Right" VerticalAlignment="Center" Margin="4 0"
+                       Text="{DynamicResource LabelInbound}" />
             <TextBox Grid.Column="1" VerticalAlignment="Center" Height="24"
                      Text="{Binding ElementName=Window,Path=InboundAddress,UpdateSourceTrigger=PropertyChanged}" />
             <TextBlock Grid.Column="2" TextAlignment="Center" VerticalAlignment="Center" Margin="2 0">:</TextBlock>
@@ -63,7 +69,8 @@
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
 
-            <TextBlock Grid.Column="0" TextAlignment="Right" VerticalAlignment="Center" Margin="4 0">出站端口</TextBlock>
+            <TextBlock Grid.Column="0" TextAlignment="Right" VerticalAlignment="Center" Margin="4 0"
+                       Text="{DynamicResource LabelOutbound}" />
             <TextBox Grid.Column="1" VerticalAlignment="Center" Height="24"
                      Text="{Binding ElementName=Window,Path=OutboundAddress,UpdateSourceTrigger=PropertyChanged}" />
             <TextBlock Grid.Column="2" TextAlignment="Center" VerticalAlignment="Center" Margin="2 0">:</TextBlock>
@@ -77,11 +84,17 @@
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
 
-            <TextBlock Grid.Column="0" TextAlignment="Right" VerticalAlignment="Center" Margin="4 0">出站过滤</TextBlock>
+            <TextBlock Grid.Column="0" TextAlignment="Right" VerticalAlignment="Center" Margin="4 0"
+                       Text="{DynamicResource LabelOutboundFilter}" />
             <ComboBox Grid.Column="1" SelectedValue="{Binding ElementName=Window,Path=Filter}"
                       ItemsSource="{Binding Source={StaticResource FilterTypes},Path=KnownFilters}"
-                      SelectedValuePath="Key"
-                      DisplayMemberPath="Value" />
+                      SelectedValuePath="Key">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Path=Value,Converter={StaticResource FilterTypeConverter}}"/>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
         </Grid>
 
         <Grid Grid.Row="6">
@@ -92,9 +105,15 @@
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
 
-            <Button Grid.Column="0" Padding="4" Click="OnDeleteClick">删除</Button>
-            <Button Grid.Column="2" Padding="4" Click="OnCancelClick" IsCancel="True">取消</Button>
-            <Button Grid.Column="3" Padding="4" Margin="4 0" Click="OnSaveClick" IsDefault="True">保存</Button>
+            <Button Grid.Column="0" Padding="4" Click="OnDeleteClick">
+                <TextBlock Text="{DynamicResource BtnDelete}" />
+            </Button>
+            <Button Grid.Column="2" Padding="4" Click="OnCancelClick" IsCancel="True">
+                <TextBlock Text="{DynamicResource BtnCancel}" />
+            </Button>
+            <Button Grid.Column="3" Padding="4" Margin="4 0" Click="OnSaveClick" IsDefault="True">
+                <TextBlock Text="{DynamicResource BtnSave}" />
+            </Button>
         </Grid>
     </Grid>
 </Window>

@@ -1,0 +1,29 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=System">
+    <sys:String x:Key="StateIdle">已经停止</sys:String>
+    <sys:String x:Key="StateActive">正在运行</sys:String>
+    <sys:String x:Key="StateUnknown">未知状态</sys:String>
+    <sys:String x:Key="BtnStart">启动</sys:String>
+    <sys:String x:Key="BtnStop">停止</sys:String>
+    <sys:String x:Key="BtnError">错误</sys:String>
+    <sys:String x:Key="BtnCancel">取消</sys:String>
+    <sys:String x:Key="BtnSave">保存</sys:String>
+    <sys:String x:Key="BtnDelete">删除</sys:String>
+    <sys:String x:Key="LabelDownstream">下游程序</sys:String>
+    <sys:String x:Key="LabelUpstream">上游程序</sys:String>
+    <sys:String x:Key="LabelInboundPort">入站端口：</sys:String>
+    <sys:String x:Key="LabelOutboundPort">出站端口：</sys:String>
+    <sys:String x:Key="LabelUnknownApplication">（自定义条目）</sys:String>
+    <sys:String x:Key="BtnEdit">编辑...</sys:String>
+    <sys:String x:Key="BtnOpen">打开...</sys:String>
+    <sys:String x:Key="LabelAddEntry">添加条目</sys:String>
+    <sys:String x:Key="LabelEditEntry">编辑条目</sys:String>
+    <sys:String x:Key="LabelProgram">程序</sys:String>
+    <sys:String x:Key="LabelInbound">入站地址</sys:String>
+    <sys:String x:Key="LabelOutbound">出站地址</sys:String>
+    <sys:String x:Key="LabelOutboundFilter">出站过滤</sys:String>
+    <sys:String x:Key="TypeAllow">不过滤</sys:String>
+    <sys:String x:Key="TypeOsc">仅 OSC 数据报</sys:String>
+    <sys:String x:Key="TypeDeny">不出站</sys:String>
+</ResourceDictionary>

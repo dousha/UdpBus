@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+using System.Windows;
 using System.Windows.Data;
 
 namespace UdpBusDriver.Converter;
@@ -9,7 +10,9 @@ public class EntryInboundPortConverter : IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
-        return value is not int port ? @"入站端口：???" : $"入站端口：{port}";
+        var dict = Application.Current.Resources;
+        var label = dict["LabelInboundPort"] as string;
+        return value is not int port ? $"{label}???" : $"{label}{port}";
     }
 
     public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

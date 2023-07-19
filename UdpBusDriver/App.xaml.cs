@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 
 namespace UdpBusDriver;
 
@@ -7,4 +8,22 @@ namespace UdpBusDriver;
 /// </summary>
 public partial class App : Application
 {
+    public App()
+    {
+        var languageName = "en-US";
+        //var languageName = Thread.CurrentThread.CurrentCulture.ToString();
+        var dict = new ResourceDictionary();
+
+        switch (languageName)
+        {
+            case "zh-CN":
+                dict.Source = new Uri(@"..\I18N\Strings.zh-Hans.xaml", UriKind.Relative);
+                break;
+            default:
+                dict.Source = new Uri(@"..\I18N\Strings.xaml", UriKind.Relative);
+                break;
+        }
+
+        Resources.MergedDictionaries.Add(dict);
+    }
 }

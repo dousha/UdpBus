@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+using System.Windows;
 using System.Windows.Data;
 
 namespace UdpBusDriver.Converter;
@@ -9,9 +10,11 @@ public class StartStopTextConverter : IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
-        if (value is not bool b) return @"错误";
+        var dict = Application.Current.Resources;
 
-        return b ? @"停止" : @"启动";
+        if (value is not bool b) return dict["BtnError"];
+
+        return b ? dict["BtnStop"] : dict["BtnStart"];
     }
 
     public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
