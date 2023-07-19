@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using System.Windows;
 
 namespace UdpBusDriver;
@@ -10,8 +11,7 @@ public partial class App : Application
 {
     public App()
     {
-        var languageName = "en-US";
-        //var languageName = Thread.CurrentThread.CurrentCulture.ToString();
+        var languageName = Thread.CurrentThread.CurrentCulture.ToString();
         var dict = new ResourceDictionary();
 
         switch (languageName)
